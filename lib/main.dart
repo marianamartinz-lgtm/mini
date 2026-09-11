@@ -26,6 +26,10 @@ class MeuAplicativo extends StatelessWidget {
   }
 }
 
+// ======================================================
+// TELA 1 - CADASTRO
+// ======================================================
+
 class TelaCadastro extends StatefulWidget {
   const TelaCadastro({super.key});
 
@@ -45,6 +49,7 @@ class _TelaCadastroState extends State<TelaCadastro> {
   void dispose() {
     nomeController.dispose();
     cidadeController.dispose();
+
     super.dispose();
   }
 
@@ -66,10 +71,14 @@ class _TelaCadastroState extends State<TelaCadastro> {
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Cadastro realizado com sucesso!',
+    // Passagem dos dados para a Tela 2
+    Navigator.push(
+      context,
+
+      MaterialPageRoute(
+        builder: (context) => TelaResumo(
+          nome: nome,
+          cidade: cidade,
         ),
       ),
     );
@@ -109,6 +118,7 @@ class _TelaCadastroState extends State<TelaCadastro> {
 
             const Text(
               'Cadastrar Participante',
+
               textAlign: TextAlign.center,
 
               style: TextStyle(
@@ -121,6 +131,7 @@ class _TelaCadastroState extends State<TelaCadastro> {
 
             const Text(
               'Preencha os dados abaixo',
+
               textAlign: TextAlign.center,
 
               style: TextStyle(
@@ -180,6 +191,166 @@ class _TelaCadastroState extends State<TelaCadastro> {
                   'Cadastrar',
                   style: TextStyle(
                     fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ======================================================
+// TELA 2 - RESUMO
+// ======================================================
+
+class TelaResumo extends StatelessWidget {
+
+  final String nome;
+  final String cidade;
+
+  const TelaResumo({
+    super.key,
+    required this.nome,
+    required this.cidade,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+        title: const Text(
+          'Resumo do Cadastro',
+        ),
+        centerTitle: true,
+      ),
+
+      body: Padding(
+
+        padding: const EdgeInsets.all(24),
+
+        child: Column(
+
+          crossAxisAlignment:
+              CrossAxisAlignment.stretch,
+
+          children: [
+
+            const SizedBox(height: 30),
+
+            const Icon(
+              Icons.check_circle,
+              color: Colors.green,
+              size: 90,
+            ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              'Cadastro realizado!',
+
+              textAlign: TextAlign.center,
+
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 35),
+
+            Card(
+
+              elevation: 4,
+
+              child: Padding(
+
+                padding: const EdgeInsets.all(20),
+
+                child: Column(
+
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start,
+
+                  children: [
+
+                    const Text(
+                      'Resumo dos dados',
+
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 25),
+
+                    const Text(
+                      'Nome:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+
+                    const SizedBox(height: 5),
+
+                    Text(
+                      nome,
+
+                      style: const TextStyle(
+                        fontSize: 19,
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    const Text(
+                      'Cidade:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+
+                    const SizedBox(height: 5),
+
+                    Text(
+                      cidade,
+
+                      style: const TextStyle(
+                        fontSize: 19,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const Spacer(),
+
+            SizedBox(
+              height: 55,
+
+              child: ElevatedButton.icon(
+
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+
+                icon: const Icon(
+                  Icons.arrow_back,
+                ),
+
+                label: const Text(
+                  'Voltar para o cadastro',
+
+                  style: TextStyle(
+                    fontSize: 16,
                   ),
                 ),
               ),
