@@ -11,7 +11,6 @@ class MeuAplicativo extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       title: 'Cadastro de Participantes',
 
       theme: ThemeData(
@@ -49,7 +48,6 @@ class _TelaCadastroState extends State<TelaCadastro> {
   void dispose() {
     nomeController.dispose();
     cidadeController.dispose();
-
     super.dispose();
   }
 
@@ -59,7 +57,6 @@ class _TelaCadastroState extends State<TelaCadastro> {
     String cidade = cidadeController.text;
 
     if (nome.isEmpty || cidade.isEmpty) {
-
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
@@ -71,7 +68,6 @@ class _TelaCadastroState extends State<TelaCadastro> {
       return;
     }
 
-    // Passagem dos dados para a Tela 2
     Navigator.push(
       context,
 
@@ -180,7 +176,6 @@ class _TelaCadastroState extends State<TelaCadastro> {
               height: 55,
 
               child: ElevatedButton.icon(
-
                 onPressed: cadastrar,
 
                 icon: const Icon(
@@ -217,6 +212,20 @@ class TelaResumo extends StatelessWidget {
     required this.cidade,
   });
 
+  void confirmarCadastro(BuildContext context) {
+
+    Navigator.push(
+      context,
+
+      MaterialPageRoute(
+        builder: (context) => TelaConfirmacao(
+          nome: nome,
+          cidade: cidade,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -251,7 +260,7 @@ class TelaResumo extends StatelessWidget {
             const SizedBox(height: 20),
 
             const Text(
-              'Cadastro realizado!',
+              'Confira seus dados',
 
               textAlign: TextAlign.center,
 
@@ -279,17 +288,6 @@ class TelaResumo extends StatelessWidget {
                   children: [
 
                     const Text(
-                      'Resumo dos dados',
-
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    const SizedBox(height: 25),
-
-                    const Text(
                       'Nome:',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -301,7 +299,6 @@ class TelaResumo extends StatelessWidget {
 
                     Text(
                       nome,
-
                       style: const TextStyle(
                         fontSize: 19,
                       ),
@@ -321,7 +318,6 @@ class TelaResumo extends StatelessWidget {
 
                     Text(
                       cidade,
-
                       style: const TextStyle(
                         fontSize: 19,
                       ),
@@ -333,29 +329,163 @@ class TelaResumo extends StatelessWidget {
 
             const Spacer(),
 
+            // BOTÃO NOVO DA PARTE 3
             SizedBox(
               height: 55,
 
               child: ElevatedButton.icon(
 
                 onPressed: () {
-                  Navigator.pop(context);
+                  confirmarCadastro(context);
                 },
 
                 icon: const Icon(
-                  Icons.arrow_back,
+                  Icons.check,
                 ),
 
                 label: const Text(
-                  'Voltar para o cadastro',
+                  'Confirmar cadastro',
 
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 17,
                   ),
                 ),
               ),
             ),
+
+            const SizedBox(height: 15),
+
+            SizedBox(
+              height: 50,
+
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+
+                child: const Text(
+                  'Voltar e editar',
+                ),
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// ======================================================
+// TELA 3 - CONFIRMAÇÃO
+// ======================================================
+
+class TelaConfirmacao extends StatelessWidget {
+
+  final String nome;
+  final String cidade;
+
+  const TelaConfirmacao({
+    super.key,
+    required this.nome,
+    required this.cidade,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+        title: const Text(
+          'Confirmação',
+        ),
+        centerTitle: true,
+      ),
+
+      body: Center(
+
+        child: Padding(
+
+          padding: const EdgeInsets.all(24),
+
+          child: Column(
+
+            mainAxisAlignment:
+                MainAxisAlignment.center,
+
+            children: [
+
+              const Icon(
+                Icons.check_circle,
+                color: Colors.green,
+                size: 120,
+              ),
+
+              const SizedBox(height: 25),
+
+              const Text(
+                'Cadastro confirmado!',
+
+                textAlign: TextAlign.center,
+
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              Text(
+                'Parabéns, $nome!',
+
+                textAlign: TextAlign.center,
+
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Text(
+                'Cidade: $cidade',
+
+                textAlign: TextAlign.center,
+
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.grey,
+                ),
+              ),
+
+              const SizedBox(height: 40),
+
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+
+                child: ElevatedButton(
+                  onPressed: () {
+
+                    Navigator.popUntil(
+                      context,
+                      (route) => route.isFirst,
+                    );
+
+                  },
+
+                  child: const Text(
+                    'Voltar ao início',
+
+                    style: TextStyle(
+                      fontSize: 17,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
