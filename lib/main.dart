@@ -11,6 +11,7 @@ class MeuAplicativo extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       title: 'Cadastro de Participantes',
 
       theme: ThemeData(
@@ -70,7 +71,6 @@ class _TelaCadastroState extends State<TelaCadastro> {
 
     Navigator.push(
       context,
-
       MaterialPageRoute(
         builder: (context) => TelaResumo(
           nome: nome,
@@ -114,7 +114,6 @@ class _TelaCadastroState extends State<TelaCadastro> {
 
             const Text(
               'Cadastrar Participante',
-
               textAlign: TextAlign.center,
 
               style: TextStyle(
@@ -127,7 +126,6 @@ class _TelaCadastroState extends State<TelaCadastro> {
 
             const Text(
               'Preencha os dados abaixo',
-
               textAlign: TextAlign.center,
 
               style: TextStyle(
@@ -329,7 +327,6 @@ class TelaResumo extends StatelessWidget {
 
             const Spacer(),
 
-            // BOTÃO NOVO DA PARTE 3
             SizedBox(
               height: 55,
 
@@ -389,6 +386,20 @@ class TelaConfirmacao extends StatelessWidget {
     required this.nome,
     required this.cidade,
   });
+
+  void irParaInicio(BuildContext context) {
+
+    Navigator.push(
+      context,
+
+      MaterialPageRoute(
+        builder: (context) => TelaInicio(
+          nome: nome,
+          cidade: cidade,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -465,18 +476,18 @@ class TelaConfirmacao extends StatelessWidget {
                 width: double.infinity,
                 height: 55,
 
-                child: ElevatedButton(
+                child: ElevatedButton.icon(
+
                   onPressed: () {
-
-                    Navigator.popUntil(
-                      context,
-                      (route) => route.isFirst,
-                    );
-
+                    irParaInicio(context);
                   },
 
-                  child: const Text(
-                    'Voltar ao início',
+                  icon: const Icon(
+                    Icons.home,
+                  ),
+
+                  label: const Text(
+                    'Ir para o início',
 
                     style: TextStyle(
                       fontSize: 17,
@@ -486,6 +497,182 @@ class TelaConfirmacao extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// ======================================================
+// TELA 4 - INÍCIO
+// ======================================================
+
+class TelaInicio extends StatelessWidget {
+
+  final String nome;
+  final String cidade;
+
+  const TelaInicio({
+    super.key,
+    required this.nome,
+    required this.cidade,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+        title: const Text(
+          'Início',
+        ),
+        centerTitle: true,
+      ),
+
+      body: SingleChildScrollView(
+
+        padding: const EdgeInsets.all(24),
+
+        child: Column(
+
+          crossAxisAlignment:
+              CrossAxisAlignment.stretch,
+
+          children: [
+
+            const SizedBox(height: 35),
+
+            const Icon(
+              Icons.home,
+              size: 100,
+              color: Colors.blue,
+            ),
+
+            const SizedBox(height: 25),
+
+            Text(
+              'Bem-vindo, $nome!',
+
+              textAlign: TextAlign.center,
+
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            const Text(
+              'Seu cadastro foi concluído com sucesso.',
+
+              textAlign: TextAlign.center,
+
+              style: TextStyle(
+                fontSize: 17,
+                color: Colors.grey,
+              ),
+            ),
+
+            const SizedBox(height: 35),
+
+            Card(
+
+              elevation: 4,
+
+              child: Padding(
+
+                padding: const EdgeInsets.all(20),
+
+                child: Column(
+
+                  children: [
+
+                    const Text(
+                      'Dados cadastrados',
+
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    ListTile(
+
+                      leading: const Icon(
+                        Icons.person,
+                        color: Colors.blue,
+                      ),
+
+                      title: const Text(
+                        'Nome',
+                      ),
+
+                      subtitle: Text(
+                        nome,
+                      ),
+                    ),
+
+                    ListTile(
+
+                      leading: const Icon(
+                        Icons.location_city,
+                        color: Colors.blue,
+                      ),
+
+                      title: const Text(
+                        'Cidade',
+                      ),
+
+                      subtitle: Text(
+                        cidade,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 35),
+
+            SizedBox(
+              height: 55,
+
+              child: ElevatedButton.icon(
+
+                onPressed: () {
+
+                  Navigator.pushAndRemoveUntil(
+
+                    context,
+
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const TelaCadastro(),
+                    ),
+
+                    (route) => false,
+                  );
+
+                },
+
+                icon: const Icon(
+                  Icons.add,
+                ),
+
+                label: const Text(
+                  'Fazer novo cadastro',
+
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
